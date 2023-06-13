@@ -51,33 +51,36 @@ namespace MathTricks
                 switch (inputMove)
                 {
                     case ConsoleKey.NumPad1:
-                        bluePLayer.MoveToCell(-1, 1);
+                        bluePLayer.MoveToCell(1, -1);
                         break;
                     case ConsoleKey.NumPad2:
-                        bluePLayer.MoveToCell(0, 1);
+                        bluePLayer.MoveToCell(1, 0);
                         break;
                     case ConsoleKey.NumPad3:
-                        bluePLayer.MoveToCell(1, 1);
+                        bluePLayer.MoveToCell(1,1);
                         break;
                     case ConsoleKey.NumPad4:
-                        bluePLayer.MoveToCell(-1, 0);
+                        bluePLayer.MoveToCell(0, -1);
                         break;
                     case ConsoleKey.NumPad6:
-                        bluePLayer.MoveToCell(1, 0);
+                        bluePLayer.MoveToCell(0, 1);
                         break;
                     case ConsoleKey.NumPad7:
                         bluePLayer.MoveToCell(-1, -1);
                         break;
                     case ConsoleKey.NumPad8:
-                        bluePLayer.MoveToCell(0, -1);
+                        bluePLayer.MoveToCell(-1, 0);
                         break;
                     case ConsoleKey.NumPad9:
-                        bluePLayer.MoveToCell(1, -1);
+                        bluePLayer.MoveToCell(-1, 1);
                         break;
                     default:
                         inputMove = Console.ReadKey().Key;
                         break;
                 }
+                Grid.Visualize();
+                Console.WriteLine($"{bluePLayer.Name}'s Points: {bluePLayer.Points}. Current cell index: {bluePLayer.CurrentCell.RowNumber} {bluePLayer.CurrentCell.ColumnNumber}");
+                if (!bluePLayer.HasAnyLegalMove()) break;
                 inputMove = Console.ReadKey().Key;
             }
         }

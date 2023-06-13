@@ -10,9 +10,9 @@
             set { name = value; }
         }
 
-        private int points;
+        private double points;
 
-        public int Points
+        public double Points
         {
             get { return points; }
             set { points = value; }
@@ -48,20 +48,18 @@
             int nextCellColumn = this.CurrentCell.ColumnNumber + colMove;
             if (IsValidMove(nextCellRow, nextCellColumn))
             {
-                this.CurrentCell.Captured = true;
-                this.CurrentCell.Color = Color;
+                this.CurrentCell = Grid.Cells[nextCellRow, nextCellColumn];
                 this.CurrentCell.RowNumber = nextCellRow;
                 this.CurrentCell.ColumnNumber = nextCellColumn;
-                Console.WriteLine("Moved at: " + CurrentCell.RowNumber + "-" + CurrentCell.ColumnNumber);
+                this.CurrentCell.Captured = true;
+                this.CurrentCell.Color = Color;
+                CalculateNewPoints(this.CurrentCell.Value);
             }
-            else
-            {
-                Console.WriteLine(" it be dont legal");
-            }
+            
         }
 
-        /* check if it IS outside of the boundaries,                                    
-        * then if it HAS been already taken and if it goes through all cases,           
+        /* check if it IS outside of the boundaries,                            CORRECT                                
+        * then if it HAS been already taken,                                    CORRECT        
         * the game ends and points need to be calculated 
         * **you can have a move counter that is the number of possible moves and 
         * if a move is successful you subtract 1. 
@@ -80,6 +78,37 @@
                 return false;
             }
             return true;
+        }
+        private void CalculateNewPoints(string value) 
+        {
+            char operation = value[0];
+            value = value.Remove(0, 1);
+            int number = int.Parse(value);
+            switch (operation)
+            {
+                case '+':
+                    this.Points += number;
+                    break;         
+                case '-':          
+                    this.Points -= number;
+                    break;         
+                case '*':          
+                    this.Points *= number;
+                    break;
+                case '/':
+                    this.Points /= number;
+                    break;
+                default:
+                    break;
+            }
+        }
+        public bool HasAnyLegalMove()
+        {
+            if (IsValidMove(0, 1) || IsValidMove(0, -1) || 
+                IsValidMove(-1, 0) || IsValidMove(-1, -1) || IsValidMove(-1, 1) || 
+                IsValidMove(1, 0) || IsValidMove(1, -1) || IsValidMove(1, 1))
+                return true;
+            return false;
         }
     }
 }
