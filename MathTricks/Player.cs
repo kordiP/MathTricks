@@ -40,13 +40,11 @@
             this.Name = name;
         }
 
-       
-
-        public void MoveToCell(int rowMove, int colMove)
+        public bool MoveToCell(int rowMove, int colMove)
         {
             int nextCellRow = this.CurrentCell.RowNumber + rowMove;
             int nextCellColumn = this.CurrentCell.ColumnNumber + colMove;
-            if (IsValidMove(nextCellRow, nextCellColumn))
+            if (IsValidMove(rowMove, colMove))
             {
                 this.CurrentCell = Grid.Cells[nextCellRow, nextCellColumn];
                 this.CurrentCell.RowNumber = nextCellRow;
@@ -54,26 +52,19 @@
                 this.CurrentCell.Captured = true;
                 this.CurrentCell.Color = Color;
                 CalculateNewPoints(this.CurrentCell.Value);
+                return true;
             }
-            
+            return false;
         }
-
-        /* check if it IS outside of the boundaries,                            CORRECT                                
-        * then if it HAS been already taken,                                    CORRECT        
-        * the game ends and points need to be calculated 
-        * **you can have a move counter that is the number of possible moves and 
-        * if a move is successful you subtract 1. 
-        * If at anytime this counter is more than 1 (because of last move) and 
-        * there is no legal move for the current player, 
-        * game ends and current player automatically loses
-        */
-        public bool IsValidMove(int nextCellRow, int nextCellColumn)
+       
+        public bool IsValidMove(int rowMove, int colMove)
         {
-            if (nextCellRow >= Grid.rowNumber || nextCellRow < 0 || nextCellColumn >= Grid.colNumber || nextCellColumn < 0)
+            if (this.CurrentCell.RowNumber + rowMove >= Grid.rowNumber || this.CurrentCell.RowNumber + rowMove < 0 
+                || this.CurrentCell.ColumnNumber + colMove >= Grid.colNumber || this.CurrentCell.ColumnNumber + colMove < 0)
             {
                 return false;
             }
-            else if (Grid.Cells[nextCellRow, nextCellColumn].Captured)
+            else if (Grid.Cells[this.CurrentCell.RowNumber + rowMove, this.CurrentCell.ColumnNumber + colMove].Captured)
             {
                 return false;
             }
@@ -109,6 +100,10 @@
                 IsValidMove(1, 0) || IsValidMove(1, -1) || IsValidMove(1, 1))
                 return true;
             return false;
+        }
+        public override string ToString()
+        {
+            return $"{Name}: {Points:f2}";
         }
     }
 }

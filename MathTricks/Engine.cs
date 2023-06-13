@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MathTricks
+﻿namespace MathTricks
 {
     public static class Engine
     {
         public static void Run()
         {
-            Console.WriteLine("Welcome to MathTricks!\nPlease enter the grid size: (rows cols)");
+            /*
+                Gets grid size
+             */
+            Console.WriteLine("Welcome to MathTricks!\nPlease enter the grid size: ");
             int rows = 0, cols = 0;
             string[] inputGame = Console.ReadLine().Split();
+
+
             /*
                 Checks if the numbers are in correct format,
                 then if they are in the correct boundaries.
@@ -25,6 +24,8 @@ namespace MathTricks
             {
                 inputGame = Console.ReadLine().Split();
             }
+
+
             /*
                 Generates the grid with random cell values inside.
             */
@@ -33,56 +34,115 @@ namespace MathTricks
             Grid.GenerateCells();
 
 
-            // Code below is a demo for 1 player
-
-            Console.WriteLine("Please enter player 1's name and points to start:");
-            string[] inputPlayer1 = Console.ReadLine().Split();
-          
-            Player bluePLayer = new Player(ConsoleColor.DarkCyan, int.Parse(inputPlayer1[1]), inputPlayer1[0]);
+            /*
+                Sets players parameters and shows grid
+            */
+            Console.WriteLine("Please enter red player's name and starting points:");
+            string[] inputBluePLayer = Console.ReadLine().Split();
+            Player bluePLayer = new Player(ConsoleColor.DarkCyan, int.Parse(inputBluePLayer[1]), inputBluePLayer[0]);
             bluePLayer.CurrentCell = Grid.Cells[0, 0];
+            bluePLayer.CurrentCell.RowNumber = 0;
+            bluePLayer.CurrentCell.ColumnNumber = 0;
+
+            Console.WriteLine("Please enter blue player's name and starting points:");
+            string[] inputRedPLayer = Console.ReadLine().Split();
+            Player redPLayer = new Player(ConsoleColor.DarkRed, int.Parse(inputRedPLayer[1]), inputRedPLayer[0]);
+            redPLayer.CurrentCell = Grid.Cells[rows - 1, cols - 1];
+            redPLayer.CurrentCell.RowNumber = rows - 1;
+            redPLayer.CurrentCell.ColumnNumber = cols - 1;
 
             Grid.Visualize();
 
-            
-            ConsoleKey inputMove = Console.ReadKey().Key;
-            Console.WriteLine(bluePLayer.CurrentCell.RowNumber + " " + bluePLayer.CurrentCell.ColumnNumber);
-            while (inputMove != ConsoleKey.NumPad0)
+
+            /*
+                Reads moves from players and moves them to cells
+             */
+            do
             {
-                switch (inputMove)
+
+                /*
+                 Blue player moves
+                */
+                Console.WriteLine();
+                bool blueLegalMove = false;
+                while (!blueLegalMove)
                 {
-                    case ConsoleKey.NumPad1:
-                        bluePLayer.MoveToCell(1, -1);
-                        break;
-                    case ConsoleKey.NumPad2:
-                        bluePLayer.MoveToCell(1, 0);
-                        break;
-                    case ConsoleKey.NumPad3:
-                        bluePLayer.MoveToCell(1,1);
-                        break;
-                    case ConsoleKey.NumPad4:
-                        bluePLayer.MoveToCell(0, -1);
-                        break;
-                    case ConsoleKey.NumPad6:
-                        bluePLayer.MoveToCell(0, 1);
-                        break;
-                    case ConsoleKey.NumPad7:
-                        bluePLayer.MoveToCell(-1, -1);
-                        break;
-                    case ConsoleKey.NumPad8:
-                        bluePLayer.MoveToCell(-1, 0);
-                        break;
-                    case ConsoleKey.NumPad9:
-                        bluePLayer.MoveToCell(-1, 1);
-                        break;
-                    default:
-                        inputMove = Console.ReadKey().Key;
-                        break;
+                    ConsoleKey blueMove = Console.ReadKey().Key;
+                    switch (blueMove) 
+                    {
+                        case ConsoleKey.NumPad1:
+                            blueLegalMove = bluePLayer.MoveToCell(1, -1);
+                            break;
+                        case ConsoleKey.NumPad2:
+                            blueLegalMove = bluePLayer.MoveToCell(1, 0);
+                            break;
+                        case ConsoleKey.NumPad3:
+                            blueLegalMove = bluePLayer.MoveToCell(1, 1);
+                            break;
+                        case ConsoleKey.NumPad4:
+                            blueLegalMove = bluePLayer.MoveToCell(0, -1);
+                            break;
+                        case ConsoleKey.NumPad6:
+                            blueLegalMove = bluePLayer.MoveToCell(0, 1);
+                            break;
+                        case ConsoleKey.NumPad7:
+                            blueLegalMove = bluePLayer.MoveToCell(-1, -1);
+                            break;
+                        case ConsoleKey.NumPad8:
+                            blueLegalMove = bluePLayer.MoveToCell(-1, 0);
+                            break;
+                        case ConsoleKey.NumPad9:
+                            blueLegalMove = bluePLayer.MoveToCell(-1, 1);
+                            break;
+                    }
+                    Grid.Visualize();
+                    Console.WriteLine($"{bluePLayer} | {redPLayer}");
+
                 }
-                Grid.Visualize();
-                Console.WriteLine($"{bluePLayer.Name}'s Points: {bluePLayer.Points}. Current cell index: {bluePLayer.CurrentCell.RowNumber} {bluePLayer.CurrentCell.ColumnNumber}");
-                if (!bluePLayer.HasAnyLegalMove()) break;
-                inputMove = Console.ReadKey().Key;
-            }
+                Console.WriteLine();
+
+                bool redLegalMove = false;
+                while (!redLegalMove)
+                {
+                    ConsoleKey redMove = Console.ReadKey().Key;
+                    switch (redMove)
+                    {
+                        case ConsoleKey.NumPad1:
+                            redLegalMove = redPLayer.MoveToCell(1, -1);
+                            break;
+                        case ConsoleKey.NumPad2:
+                            redLegalMove = redPLayer.MoveToCell(1, 0);
+                            break;
+                        case ConsoleKey.NumPad3:
+                            redLegalMove = redPLayer.MoveToCell(1, 1);
+                            break;
+                        case ConsoleKey.NumPad4:
+                            redLegalMove = redPLayer.MoveToCell(0, -1);
+                            break;
+                        case ConsoleKey.NumPad6:
+                            redLegalMove = redPLayer.MoveToCell(0, 1);
+                            break;
+                        case ConsoleKey.NumPad7:
+                            redLegalMove = redPLayer.MoveToCell(-1, -1);
+                            break;
+                        case ConsoleKey.NumPad8:
+                            redLegalMove = redPLayer.MoveToCell(-1, 0);
+                            break;
+                        case ConsoleKey.NumPad9:
+                            redLegalMove = redPLayer.MoveToCell(-1, 1);
+                            break;
+                    }
+                    Grid.Visualize();
+                    Console.WriteLine($"{bluePLayer} | {redPLayer}");
+
+                }
+            } while (redPLayer.HasAnyLegalMove() && bluePLayer.HasAnyLegalMove());
+
+            if (bluePLayer.Points > redPLayer.Points)
+                Console.WriteLine($"{bluePLayer.Name} wins with {bluePLayer.Points:f2} points! {redPLayer.Name} lost with {redPLayer.Points:f2} points!");
+
+            else 
+                Console.WriteLine($"{redPLayer.Name} wins with {redPLayer.Points:f2} points! {bluePLayer.Name} lost with {bluePLayer.Points:f2} points!");
         }
     }
 }
