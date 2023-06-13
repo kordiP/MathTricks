@@ -19,8 +19,8 @@
             while
                 (!int.TryParse(inputGame[0], out rows)
                 || !int.TryParse(inputGame[1], out cols)
-                || rows <= 2 || rows > 20
-                || cols <= 2 || cols > 20)
+                || rows <= 3 || rows > 12
+                || cols <= 3 || cols > 12)
             {
                 inputGame = Console.ReadLine().Split();
             }
