@@ -1,6 +1,6 @@
 ﻿namespace MathTricks
 {
-    public class Player
+    public class Player 
     {
         private string name;
 
@@ -59,8 +59,8 @@
        
         public bool IsValidMove(int rowMove, int colMove)
         {
-            if (this.CurrentCell.RowNumber + rowMove >= Grid.rowNumber || this.CurrentCell.RowNumber + rowMove < 0 
-                || this.CurrentCell.ColumnNumber + colMove >= Grid.colNumber || this.CurrentCell.ColumnNumber + colMove < 0)
+            if (this.CurrentCell.RowNumber + rowMove >= Grid.rowCount || this.CurrentCell.RowNumber + rowMove < 0 
+                || this.CurrentCell.ColumnNumber + colMove >= Grid.colCount || this.CurrentCell.ColumnNumber + colMove < 0)
             {
                 return false;
             }
@@ -105,5 +105,6 @@
         {
             return $"{Name}: {Points:f2}";
         }
+
     }
 }
