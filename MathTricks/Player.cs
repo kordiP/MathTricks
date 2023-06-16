@@ -40,7 +40,7 @@
             this.Name = name;
         }
 
-        public bool MoveToCell(int rowMove, int colMove)
+        private bool MoveToCell(int rowMove, int colMove)
         {
             int nextCellRow = this.CurrentCell.RowNumber + rowMove;
             int nextCellColumn = this.CurrentCell.ColumnNumber + colMove;
@@ -100,6 +100,42 @@
                 IsValidMove(1, 0) || IsValidMove(1, -1) || IsValidMove(1, 1))
                 return true;
             return false;
+        }
+
+        public void MovePlayer()
+        {
+            bool legalMove = false;
+            while (!legalMove && this.HasAnyLegalMove())
+            {
+                ConsoleKey move = Console.ReadKey().Key;
+                switch (move)
+                {
+                    case ConsoleKey.NumPad1:
+                        legalMove = this.MoveToCell(1, -1);
+                        break;
+                    case ConsoleKey.NumPad2:
+                        legalMove = this.MoveToCell(1, 0);
+                        break;
+                    case ConsoleKey.NumPad3:
+                        legalMove = this.MoveToCell(1, 1);
+                        break;
+                    case ConsoleKey.NumPad4:
+                        legalMove = this.MoveToCell(0, -1);
+                        break;
+                    case ConsoleKey.NumPad6:
+                        legalMove = this.MoveToCell(0, 1);
+                        break;
+                    case ConsoleKey.NumPad7:
+                        legalMove = this.MoveToCell(-1, -1);
+                        break;
+                    case ConsoleKey.NumPad8:
+                        legalMove = this.MoveToCell(-1, 0);
+                        break;
+                    case ConsoleKey.NumPad9:
+                        legalMove = this.MoveToCell(-1, 1);
+                        break;
+                }
+            }
         }
         public override string ToString()
         {

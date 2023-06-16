@@ -32,6 +32,8 @@ namespace MathTricks
         }
         public static void Visualize()
         {
+            Console.WriteLine();
+
             for (int i = 0; i < rowCount; i++)
             {
                 Console.Write("+");
